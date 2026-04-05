@@ -745,7 +745,7 @@ function FAQBlock() {
     { q: "Cu ce fel de firme lucrați?", a: "Cu antreprenori solo, startup-uri și firme mici care vor să crească fără echipă tech internă." },
   ];
   return (
-    <Section id="faq" ref={ref} alt>
+    <Section id="faq" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 672, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
           <p className="label-sm mb-3">FAQ</p>

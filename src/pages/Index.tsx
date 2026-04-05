@@ -468,31 +468,32 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                 </div>
               </div>
 
-              {/* Right: CTA area */}
+              {/* Right: Illustration + CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 16 }}
                 animate={v ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.35 }}
                 className="shrink-0 flex flex-col items-center text-center"
-                style={{ minWidth: 260, maxWidth: 300 }}
+                style={{ minWidth: 280, maxWidth: 360 }}
               >
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 text-primary" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.2)" }}>
-                  <Search size={26} />
-                </div>
-                <p className="font-heading font-semibold text-foreground mb-1" style={{ fontSize: 16 }}>Fără obligații</p>
-                <p className="text-muted-foreground mb-6" style={{ fontSize: 12, lineHeight: 1.6 }}>Primești raportul detaliat în 24-48h</p>
+                <img
+                  src={serverIllustration}
+                  alt="Infrastructură digitală"
+                  className="w-full max-w-[280px] h-auto mb-6 drop-shadow-2xl"
+                  style={{ filter: "drop-shadow(0 8px 24px hsl(var(--primary) / 0.3))" }}
+                />
 
                 <motion.button
                   onClick={openQuiz}
                   className="btn-primary w-full"
-                  style={{ padding: "14px 24px", fontSize: 14, borderRadius: 12 }}
+                  style={{ padding: "14px 28px", fontSize: 14, borderRadius: 12, maxWidth: 260 }}
                   whileHover={{ scale: 1.03, boxShadow: "0 8px 32px hsl(var(--primary) / 0.4)" }}
                   whileTap={{ scale: 0.97 }}
                 >
                   Vreau analiza gratuită
                 </motion.button>
 
-                <p className="text-muted-foreground/50 mt-4" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
+                <p className="text-muted-foreground/50 mt-3" style={{ fontSize: 11 }}>Fără obligații · Răspundem în max 2 ore</p>
               </motion.div>
           </div>
         </motion.div>

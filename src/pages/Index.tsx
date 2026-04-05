@@ -352,12 +352,11 @@ function ServicesBlock() {
   const { ref, v } = useReveal();
   const services = [
     { icon: Cog, title: "Automatizări", sub: "Elimină taskurile repetitive", before: "4h/zi pe taskuri manuale", after: "Totul rulează automat", tools: "n8n · Make · Zapier" },
-    { icon: Monitor, title: "Aplicații Web", sub: "Un singur tool în loc de 6", before: "Spreadsheet-uri, haos total", after: "O singură aplicație, live", tools: "React · Supabase" },
+    { icon: Monitor, title: "Aplicații Web & SaaS", sub: "De la idee la produs live", before: "Spreadsheet-uri sau idee blocată", after: "O singură aplicație, live, cu useri", tools: "React · Supabase · Stripe" },
     { icon: Brain, title: "AI Integrat", sub: "Lasă AI-ul să răspundă", before: "200+ întrebări pe zi, manual", after: "AI răspunde non-stop", tools: "OpenAI · Claude · RAG" },
-    { icon: Globe, title: "Platforme SaaS", sub: "De la idee la produs", before: "Idee blocată pe hârtie", after: "Produs live, cu useri", tools: "React · Node.js · Stripe" },
-    { icon: RefreshCw, title: "Redesign & Modernizare", sub: "Site-ul tău, dar mai bun", before: "Site vechi, lent, neresponsiv", after: "Design modern, rapid, mobile-first", tools: "React · Tailwind · Figma" },
+    { icon: RefreshCw, title: "Redesign & SEO", sub: "Site modern, vizibil pe Google", before: "Site vechi, nimeni nu te găsește", after: "Design modern, prima pagină Google", tools: "React · Tailwind · Google · Analytics" },
     { icon: Lightbulb, title: "Consultanță Tehnică", sub: "Claritate înainte de execuție", before: "Nu știi ce tehnologie să alegi", after: "Plan clar, buget realist, timeline", tools: "Audit · Roadmap · Strategy" },
-    { icon: BarChart3, title: "SEO & Google Presence", sub: "Fii vizibil unde contează", before: "Nimeni nu te găsește online", after: "Prima pagină Google, Maps, local SEO", tools: "Google · Analytics · Search Console" },
+    { icon: Globe, title: "Prezență Online Completă", sub: "Website + branding + strategie", before: "Lipsă vizibilitate, fără leads", after: "Prezență profesională, leads constante", tools: "Web · SEO · Social · Ads" },
   ];
   return (
     <Section id="servicii" ref={ref} alt>

@@ -43,12 +43,20 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 20 }, animate: { opac
 
 /* ─── SECTION WRAPPER ─── */
 import { forwardRef } from "react";
-const Section = forwardRef<HTMLDivElement, { id?: string; children: React.ReactNode; alt?: boolean; className?: string; style?: React.CSSProperties }>(
-  ({ id, children, alt, className = "", style = {} }, ref) => (
-    <section ref={ref} id={id} className={className} style={{ position: "relative", zIndex: 2, padding: "80px 24px", background: alt ? "hsl(240 10% 5%)" : "transparent", ...style }}>
-      {children}
-    </section>
-  )
+const Section = forwardRef<HTMLDivElement, { id?: string; children: React.ReactNode; alt?: boolean; className?: string; style?: React.CSSProperties; fadeIn?: boolean; fadeOut?: boolean; divider?: boolean }>(
+  ({ id, children, alt, className = "", fadeIn, fadeOut, divider, style = {} }, ref) => {
+    const transitionClasses = [
+      alt && fadeIn ? "section-alt-fade-in" : !alt && fadeIn ? "section-fade-in" : "",
+      alt && fadeOut ? "section-alt-fade-out" : !alt && fadeOut ? "section-fade-out" : "",
+      divider ? "section-divider" : "",
+    ].filter(Boolean).join(" ");
+
+    return (
+      <section ref={ref} id={id} className={`${transitionClasses} ${className}`} style={{ position: "relative", zIndex: 2, padding: "96px 24px", background: alt ? "hsl(240 10% 5%)" : "transparent", ...style }}>
+        {children}
+      </section>
+    );
+  }
 );
 Section.displayName = "Section";
 

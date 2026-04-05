@@ -430,8 +430,8 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16" style={{ padding: "48px 40px" }}>
-              {/* Left: text content */}
+          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-16" style={{ padding: "48px 40px" }}>
+              {/* Left: all info */}
               <div className="flex-1 text-center lg:text-left">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -446,14 +446,11 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                 <h3 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.2 }}>
                   Analiză gratuită a prezenței tale online
                 </h3>
-                <p className="text-muted-foreground" style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 440 }}>
+                <p className="text-muted-foreground mb-6" style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 480 }}>
                   Află cum arăți online vs. competiția ta. Primești un raport detaliat cu puncte forte, puncte slabe și recomandări concrete.
                 </p>
-              </div>
 
-              {/* Right: features + CTA */}
-              <div className="flex-1 flex flex-col items-center lg:items-start">
-                <div className="flex flex-col gap-3 mb-6">
+                <div className="flex flex-col gap-3">
                   {features.map((f, i) => (
                     <motion.div
                       key={i}
@@ -469,21 +466,34 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                     </motion.div>
                   ))}
                 </div>
+              </div>
 
-                <p className="text-muted-foreground mb-4" style={{ fontSize: 12 }}>Fără obligații · Primești raportul în 24-48h</p>
+              {/* Right: CTA area */}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={v ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.35 }}
+                className="shrink-0 flex flex-col items-center text-center"
+                style={{ minWidth: 260, maxWidth: 300 }}
+              >
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 text-primary" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.2)" }}>
+                  <Search size={26} />
+                </div>
+                <p className="font-heading font-semibold text-foreground mb-1" style={{ fontSize: 16 }}>Fără obligații</p>
+                <p className="text-muted-foreground mb-6" style={{ fontSize: 12, lineHeight: 1.6 }}>Primești raportul detaliat în 24-48h</p>
 
                 <motion.button
                   onClick={openQuiz}
-                  className="btn-primary"
-                  style={{ padding: "14px 36px", fontSize: 14 }}
-                  whileHover={{ scale: 1.03, boxShadow: "0 6px 28px hsl(var(--primary) / 0.4)" }}
+                  className="btn-primary w-full"
+                  style={{ padding: "14px 24px", fontSize: 14, borderRadius: 12 }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 8px 32px hsl(var(--primary) / 0.4)" }}
                   whileTap={{ scale: 0.97 }}
                 >
                   Vreau analiza gratuită
                 </motion.button>
 
-                <p className="text-muted-foreground/40 mt-3" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
-              </div>
+                <p className="text-muted-foreground/50 mt-4" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
+              </motion.div>
           </div>
         </motion.div>
       </div>

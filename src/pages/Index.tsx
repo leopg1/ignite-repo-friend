@@ -367,7 +367,7 @@ function ServicesBlock() {
     { icon: Globe, title: "Prezență Online Completă", sub: "Website + branding + strategie", before: "Lipsă vizibilitate, fără leads", after: "Prezență profesională, leads constante", tools: "Web · SEO · Social · Ads" },
   ];
   return (
-    <Section id="servicii" ref={ref} alt>
+    <Section id="servicii" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
           <p className="label-sm mb-3">Servicii</p>

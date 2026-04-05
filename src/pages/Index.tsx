@@ -690,7 +690,7 @@ function StatsBlock() {
   ];
 
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       {/* Subtle background orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.04)", filter: "blur(120px)" }} />
       <div style={{ maxWidth: 1152, margin: "0 auto", position: "relative" }}>

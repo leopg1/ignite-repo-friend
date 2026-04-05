@@ -403,94 +403,99 @@ function ServicesBlock() {
 
 
 /* ═══════════════════════════════════════════════
-   ROI CALCULATOR
-   ═══════════════════════════════════════════════ */
-function ROIBlock({ openQuiz }: { openQuiz: () => void }) {
-  const { ref, v } = useReveal();
-  const [emp, setEmp] = useState(3);
-  const [hrs, setHrs] = useState(5);
-  const [rate, setRate] = useState(40);
-  const monthly = Math.round(emp * hrs * rate * 4.33);
-  const yearly = monthly * 12;
-  const warn = monthly > 5000;
-
-  const SliderInput = ({ label, value, onChange, min, max, suffix }: { label: string; value: number; onChange: (v: number) => void; min: number; max: number; suffix: string }) => {
-    const pct = ((value - min) / (max - min)) * 100;
-    return (
-      <div>
-        <div className="flex justify-between mb-2.5">
-          <span className="text-sm text-muted-foreground">{label}</span>
-          <span className="text-sm font-medium tabular-nums" style={{ color: "hsl(0 0% 82%)" }}>{value}{suffix}</span>
-        </div>
-        <input type="range" min={min} max={max} value={value} onChange={e => onChange(Number(e.target.value))} aria-label={label}
-          style={{ width: "100%", height: 6, borderRadius: 999, appearance: "none", WebkitAppearance: "none", cursor: "pointer", background: `linear-gradient(to right, hsl(var(--primary)) ${pct}%, hsl(var(--border)) ${pct}%)` }}
-          className="[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-background" />
-      </div>
-    );
-  };
-
-  return (
-    <Section ref={ref} alt fadeIn fadeOut>
-      <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
-          <p className="label-sm mb-3">Calculator ROI</p>
-          <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Cât te costă să nu faci nimic?</h2>
-          <p className="text-muted-foreground mx-auto" style={{ maxWidth: 420, fontSize: 14 }}>Calculează în 10 secunde cât pierzi lunar pe taskuri repetitive.</p>
-        </motion.div>
-        <motion.div initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={v ? { opacity: 1, y: 0, scale: 1 } : {}} transition={{ duration: 0.7, delay: 0.15 }}
-          className="glass-card mx-auto" style={{ padding: 28, maxWidth: 560, borderColor: "hsl(var(--primary) / 0.15)" }}>
-          <div className="flex flex-col gap-7">
-            <SliderInput label="Angajați cu taskuri repetitive" value={emp} onChange={setEmp} min={1} max={50} suffix="" />
-            <SliderInput label="Ore/săptămână per angajat" value={hrs} onChange={setHrs} min={1} max={20} suffix="h" />
-            <SliderInput label="Salariul orar estimat (lei)" value={rate} onChange={setRate} min={25} max={100} suffix=" lei" />
-          </div>
-          <div className="text-center mt-8 pt-6 border-t border-border">
-            <p className="label-sm mb-2">Pierzi lunar</p>
-            <motion.p key={monthly} initial={{ scale: 1.06 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300 }}
-              className="font-heading font-bold tabular-nums transition-colors" style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)", color: warn ? "hsl(0 72% 55%)" : "hsl(0 0% 94%)" }}>
-              {monthly.toLocaleString("ro-RO")} lei
-            </motion.p>
-            <p className="text-muted-foreground/50 mt-2" style={{ fontSize: 13 }}>= {yearly.toLocaleString("ro-RO")} lei/an automatizabili</p>
-          </div>
-          <div className="text-center mt-6">
-            <motion.button onClick={openQuiz} className="btn-accent" style={{ padding: "12px 28px" }}
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>Hai să automatizăm asta</motion.button>
-          </div>
-        </motion.div>
-      </div>
-    </Section>
-  );
-}
-
-/* ═══════════════════════════════════════════════
-   HOW WE WORK
+   FREE ANALYSIS CTA
    ═══════════════════════════════════════════════ */
 function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
   const { ref, v } = useReveal();
+  const features = [
+    { icon: <Search size={16} />, text: "Audit complet al prezenței online" },
+    { icon: <BarChart3 size={16} />, text: "Analiză competiție & poziționare" },
+    { icon: <Lightbulb size={16} />, text: "Recomandări concrete de îmbunătățire" },
+  ];
+
   return (
     <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
-          className="glass-card relative overflow-hidden" style={{ padding: 0, borderColor: "hsl(var(--primary) / 0.2)" }}>
-          <div style={{ height: 2, background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.3))" }} />
-          <div className="flex flex-col md:flex-row items-center gap-6" style={{ padding: "36px 32px" }}>
-            <motion.div whileHover={{ rotate: 6, scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}
-              className="shrink-0 w-16 h-16 rounded-2xl flex items-center justify-center text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
-              <Search size={28} />
-            </motion.div>
-            <div className="text-center md:text-left flex-1">
-              <div className="inline-flex items-center gap-1.5 rounded-full mb-2" style={{ padding: "3px 10px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)" }}>
-                Gratuit
-              </div>
-              <h3 className="font-heading font-bold text-foreground mb-2" style={{ fontSize: 18 }}>Analiză gratuită a prezenței tale online</h3>
-              <p className="text-muted-foreground" style={{ fontSize: 13 }}>
-                Află cum arăți online vs. competiția ta. Primești un raport cu puncte forte, puncte slabe și recomandări concrete — fără nicio obligație.
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="relative overflow-hidden rounded-3xl"
+          style={{
+            background: "linear-gradient(135deg, hsl(240 10% 7%) 0%, hsl(244 30% 12%) 50%, hsl(240 10% 7%) 100%)",
+            border: "1px solid hsl(244 40% 30% / 0.3)",
+          }}
+        >
+          {/* Ambient glow */}
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12" style={{ padding: "48px 40px" }}>
+            <div className="flex-1 text-center lg:text-left">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={v ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="inline-flex items-center gap-1.5 rounded-full mb-4"
+                style={{ padding: "5px 14px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)", letterSpacing: "0.05em" }}
+              >
+                ✦ 100% Gratuit
+              </motion.div>
+
+              <h3 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.2 }}>
+                Analiză gratuită a prezenței tale online
+              </h3>
+              <p className="text-muted-foreground mb-6" style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 440 }}>
+                Află cum arăți online vs. competiția ta. Primești un raport detaliat cu puncte forte, puncte slabe și recomandări concrete.
               </p>
+
+              <div className="flex flex-col gap-3 mb-6 lg:mb-0">
+                {features.map((f, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={v ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
+                      <span className="text-primary">{f.icon}</span>
+                    </div>
+                    <span className="text-sm" style={{ color: "hsl(0 0% 78%)" }}>{f.text}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            <motion.button onClick={openQuiz} className="btn-primary shrink-0" style={{ padding: "12px 24px" }}
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              Vreau analiza gratuită
-            </motion.button>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="shrink-0 text-center rounded-2xl"
+              style={{
+                padding: "32px 36px",
+                background: "hsl(240 10% 5% / 0.6)",
+                border: "1px solid hsl(244 40% 30% / 0.25)",
+                backdropFilter: "blur(12px)",
+                minWidth: 260,
+              }}
+            >
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.2)" }}>
+                <Search size={26} />
+              </div>
+              <p className="font-heading font-semibold text-foreground mb-1" style={{ fontSize: 15 }}>Fără obligații</p>
+              <p className="text-muted-foreground mb-5" style={{ fontSize: 12 }}>Primești raportul în 24-48h</p>
+              <motion.button
+                onClick={openQuiz}
+                className="btn-primary w-full"
+                style={{ padding: "13px 24px", fontSize: 14 }}
+                whileHover={{ scale: 1.03, boxShadow: "0 6px 28px hsl(var(--primary) / 0.4)" }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Vreau analiza gratuită
+              </motion.button>
+              <p className="text-muted-foreground/40 mt-3" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
+            </motion.div>
           </div>
         </motion.div>
       </div>

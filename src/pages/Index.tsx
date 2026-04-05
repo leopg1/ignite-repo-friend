@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Zap, Menu, X, Check, ArrowDown, Cog, Monitor, Brain, Globe, MessageCircle, TrendingUp, Users, Shield, Clock, Layers, Star, RefreshCw, Lightbulb, Search, BarChart3 } from "lucide-react";
+import { Zap, Menu, X, Check, ArrowDown, Cog, Monitor, Brain, Globe, MessageCircle, TrendingUp, Users, Shield, Clock, Layers, Star, RefreshCw, Lightbulb, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
@@ -352,12 +352,11 @@ function ServicesBlock() {
   const { ref, v } = useReveal();
   const services = [
     { icon: Cog, title: "Automatizări", sub: "Elimină taskurile repetitive", before: "4h/zi pe taskuri manuale", after: "Totul rulează automat", tools: "n8n · Make · Zapier" },
-    { icon: Monitor, title: "Aplicații Web", sub: "Un singur tool în loc de 6", before: "Spreadsheet-uri, haos total", after: "O singură aplicație, live", tools: "React · Supabase" },
+    { icon: Monitor, title: "Aplicații Web & SaaS", sub: "De la idee la produs live", before: "Spreadsheet-uri sau idee blocată", after: "O singură aplicație, live, cu useri", tools: "React · Supabase · Stripe" },
     { icon: Brain, title: "AI Integrat", sub: "Lasă AI-ul să răspundă", before: "200+ întrebări pe zi, manual", after: "AI răspunde non-stop", tools: "OpenAI · Claude · RAG" },
-    { icon: Globe, title: "Platforme SaaS", sub: "De la idee la produs", before: "Idee blocată pe hârtie", after: "Produs live, cu useri", tools: "React · Node.js · Stripe" },
-    { icon: RefreshCw, title: "Redesign & Modernizare", sub: "Site-ul tău, dar mai bun", before: "Site vechi, lent, neresponsiv", after: "Design modern, rapid, mobile-first", tools: "React · Tailwind · Figma" },
+    { icon: RefreshCw, title: "Redesign & SEO", sub: "Site modern, vizibil pe Google", before: "Site vechi, nimeni nu te găsește", after: "Design modern, prima pagină Google", tools: "React · Tailwind · Google · Analytics" },
     { icon: Lightbulb, title: "Consultanță Tehnică", sub: "Claritate înainte de execuție", before: "Nu știi ce tehnologie să alegi", after: "Plan clar, buget realist, timeline", tools: "Audit · Roadmap · Strategy" },
-    { icon: BarChart3, title: "SEO & Google Presence", sub: "Fii vizibil unde contează", before: "Nimeni nu te găsește online", after: "Prima pagină Google, Maps, local SEO", tools: "Google · Analytics · Search Console" },
+    { icon: Globe, title: "Prezență Online Completă", sub: "Website + branding + strategie", before: "Lipsă vizibilitate, fără leads", after: "Prezență profesională, leads constante", tools: "Web · SEO · Social · Ads" },
   ];
   return (
     <Section id="servicii" ref={ref} alt>
@@ -809,7 +808,7 @@ function FooterBlock() {
           </div>
           <div>
             <h4 className="label-sm mb-3">Servicii</h4>
-            {["Automatizări", "Aplicații Web", "AI Integrat", "Platforme SaaS", "Redesign", "SEO"].map(item => (
+            {["Automatizări", "Aplicații Web & SaaS", "AI Integrat", "Redesign & SEO", "Consultanță", "Prezență Online"].map(item => (
               <p key={item} className="text-sm text-muted-foreground/50 mb-2">{item}</p>
             ))}
           </div>
@@ -824,6 +823,17 @@ function FooterBlock() {
             <a href="mailto:contact@nexora.ro" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>contact@nexora.ro</a>
           </div>
         </div>
+
+        {/* Legal */}
+        <div className="border-t border-border pt-5 mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground/40">
+            <div>
+              <p className="font-medium text-muted-foreground/50 mb-1">PĂDUREAN GABRIEL-LEONARD PERSOANĂ FIZICĂ AUTORIZATĂ</p>
+              <p>CUI: 54354457 · Nr. înregistrare: F2026016431005</p>
+            </div>
+          </div>
+        </div>
+
         <div className="border-t border-border pt-5 flex justify-between items-center flex-wrap gap-3 text-xs text-muted-foreground/30">
           <p>© {new Date().getFullYear()} Nexora. Toate drepturile rezervate.</p>
           <div className="flex gap-6">

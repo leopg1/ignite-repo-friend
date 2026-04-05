@@ -798,13 +798,21 @@ function FinalCTABlock({ openQuiz }: { openQuiz: () => void }) {
 function FooterBlock() {
   return (
     <footer className="relative z-2 border-t border-border">
-      <div className="mx-auto px-6" style={{ maxWidth: 1152, padding: "48px 24px" }}>
-        <div className="grid gap-8 mb-10" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
+      <div className="mx-auto" style={{ maxWidth: 1152, padding: "48px 24px" }}>
+        {/* Top grid */}
+        <div className="grid gap-8 mb-12" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
           <div>
             <div className="flex items-center gap-2 font-heading font-bold text-foreground mb-3" style={{ fontSize: 16 }}>
               <Zap size={16} className="text-primary" /> Nexora
             </div>
-            <p className="text-sm text-muted-foreground/50 leading-relaxed">Tehnologia care lucrează pentru tine, nu invers.</p>
+            <p className="text-sm text-muted-foreground/50 leading-relaxed mb-4">Tehnologia care lucrează pentru tine, nu invers.</p>
+            <div className="text-xs text-muted-foreground/40 leading-relaxed">
+              <p className="font-medium text-muted-foreground/60 mb-1">Pădurean Gabriel-Leonard PFA</p>
+              <p>CUI: 54354457</p>
+              <p>Nr. înreg.: F2026016431005</p>
+              <p className="mt-1">Bd. Bucureștii Noi nr. 136,</p>
+              <p>Sector 1, București</p>
+            </div>
           </div>
           <div>
             <h4 className="label-sm mb-3">Servicii</h4>
@@ -816,22 +824,29 @@ function FooterBlock() {
             <h4 className="label-sm mb-3">Companie</h4>
             <a href="#cum-lucram" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Cum lucrăm</a>
             <a href="#faq" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>FAQ</a>
+            <a href="#" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Politica de confidențialitate</a>
+            <a href="#" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Termeni și condiții</a>
+            <a href="#" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Politica cookies</a>
           </div>
           <div>
             <h4 className="label-sm mb-3">Contact</h4>
             <a href="https://wa.me/40700000000" target="_blank" rel="noopener noreferrer" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>WhatsApp</a>
             <a href="mailto:contact@nexora.ro" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>contact@nexora.ro</a>
+
+            <h4 className="label-sm mb-3 mt-6">Protecția consumatorilor</h4>
+            <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>ANPC</a>
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>SOL (Soluționare Online Litigii)</a>
           </div>
         </div>
 
+        {/* Bottom bar */}
         <div className="border-t border-border pt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-muted-foreground/30">
-          <div className="flex flex-col gap-1">
-            <p>© {new Date().getFullYear()} Nexora — PĂDUREAN GABRIEL-LEONARD PFA</p>
-            <p>CUI: 54354457 · Nr. înreg.: F2026016431005</p>
-            <p>Bd. Bucureștii Noi nr. 136, Sector 1, București</p>
-          </div>
-          <div className="flex gap-6">
+          <p>© {new Date().getFullYear()} Nexora. Toate drepturile rezervate.</p>
+          <div className="flex flex-wrap gap-4">
+            <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer" className="hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>ANPC</a>
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" className="hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>SOL</a>
             <a href="#" className="hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Confidențialitate</a>
+            <a href="#" className="hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>Termeni</a>
             <a href="#" className="hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>GDPR</a>
           </div>
         </div>

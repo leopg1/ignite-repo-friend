@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Zap, Menu, X, Check, ArrowDown, Cog, Monitor, Brain, Globe, MessageCircle, TrendingUp, Users, Shield, Clock, Layers, Star, RefreshCw, Lightbulb, Search } from "lucide-react";
+import { Zap, Menu, X, Check, ArrowDown, Cog, Monitor, Brain, Globe, MessageCircle, TrendingUp, Users, Shield, Clock, Layers, Star, RefreshCw, Lightbulb, Search, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";

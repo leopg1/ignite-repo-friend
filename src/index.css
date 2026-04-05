@@ -111,6 +111,83 @@
     background: linear-gradient(90deg, hsl(244 100% 70%), hsl(200 100% 60%));
   }
 
+  /* ─── SECTION TRANSITIONS ─── */
+  .section-fade-in {
+    position: relative;
+  }
+  .section-fade-in::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, hsl(240 10% 3.9%), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-fade-out {
+    position: relative;
+  }
+  .section-fade-out::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top, hsl(240 10% 3.9%), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-alt-fade-in {
+    position: relative;
+  }
+  .section-alt-fade-in::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, hsl(240 10% 5%), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-alt-fade-out {
+    position: relative;
+  }
+  .section-alt-fade-out::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to top, hsl(240 10% 5%), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Soft divider line between sections */
+  .section-divider {
+    position: relative;
+  }
+  .section-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(80%, 600px);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(244 100% 70% / 0.12), transparent);
+    pointer-events: none;
+  }
+
   /* Primary CTA — gradient fill */
   .btn-primary {
     @apply relative overflow-hidden rounded-xl px-7 py-3.5 font-medium text-sm tracking-wide transition-all duration-300;

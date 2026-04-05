@@ -772,7 +772,7 @@ function FAQBlock() {
 function FinalCTABlock({ openQuiz }: { openQuiz: () => void }) {
   const { ref, v } = useReveal();
   return (
-    <Section id="contact" ref={ref} style={{ overflow: "hidden" }}>
+    <Section id="contact" ref={ref} divider style={{ overflow: "hidden" }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="animate-float-orb absolute" style={{ top: "30%", left: "40%", width: 400, height: 400, borderRadius: "50%", background: "hsl(var(--primary) / 0.06)", filter: "blur(150px)" }} />
       </div>

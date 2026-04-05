@@ -145,7 +145,7 @@ const Index = () => {
       <ForWhoBlock />
       <ServicesBlock />
       <FreeAnalysisBlock openQuiz={openQuiz} />
-      <ROIBlock openQuiz={openQuiz} />
+      
       <HowWeWorkBlock />
       <PortfolioBlock />
       <StatsBlock />

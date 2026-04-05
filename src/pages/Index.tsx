@@ -328,7 +328,7 @@ function ForWhoBlock() {
     { icon: <Layers size={24} />, title: "Fondatori de SaaS", desc: "Vrei să transformi o idee în MVP funcțional, validat de utilizatori, fără investiție masivă." },
   ];
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
           <p className="label-sm mb-3">Pentru cine e Nexora</p>

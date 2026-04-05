@@ -4,6 +4,7 @@ import { Zap, Menu, X, Check, ArrowDown, Cog, Monitor, Brain, Globe, MessageCirc
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
+import serverIllustration from "@/assets/server-illustration.png";
 
 /* ─── SCROLL REVEAL HOOK ─── */
 function useReveal(threshold = 0.08) {

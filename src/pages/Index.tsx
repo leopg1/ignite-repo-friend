@@ -430,54 +430,60 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
 
-          <div className="relative z-10 text-center lg:text-left" style={{ padding: "48px 40px" }}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={v ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-1.5 rounded-full mb-4"
-                style={{ padding: "5px 14px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)", letterSpacing: "0.05em" }}
-              >
-                ✦ 100% Gratuit
-              </motion.div>
+          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-8 lg:gap-16" style={{ padding: "48px 40px" }}>
+              {/* Left: text content */}
+              <div className="flex-1 text-center lg:text-left">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={v ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="inline-flex items-center gap-1.5 rounded-full mb-4"
+                  style={{ padding: "5px 14px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)", letterSpacing: "0.05em" }}
+                >
+                  ✦ 100% Gratuit
+                </motion.div>
 
-              <h3 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.2 }}>
-                Analiză gratuită a prezenței tale online
-              </h3>
-              <p className="text-muted-foreground mb-6" style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 440 }}>
-                Află cum arăți online vs. competiția ta. Primești un raport detaliat cu puncte forte, puncte slabe și recomandări concrete.
-              </p>
-
-              <div className="flex flex-col gap-3 mb-8">
-                {features.map((f, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={v ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
-                      <span className="text-primary">{f.icon}</span>
-                    </div>
-                    <span className="text-sm" style={{ color: "hsl(0 0% 78%)" }}>{f.text}</span>
-                  </motion.div>
-                ))}
+                <h3 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.2 }}>
+                  Analiză gratuită a prezenței tale online
+                </h3>
+                <p className="text-muted-foreground" style={{ fontSize: 14, lineHeight: 1.7, maxWidth: 440 }}>
+                  Află cum arăți online vs. competiția ta. Primești un raport detaliat cu puncte forte, puncte slabe și recomandări concrete.
+                </p>
               </div>
 
-              <p className="text-muted-foreground mb-4" style={{ fontSize: 12 }}>Fără obligații · Primești raportul în 24-48h</p>
+              {/* Right: features + CTA */}
+              <div className="flex-1 flex flex-col items-center lg:items-start">
+                <div className="flex flex-col gap-3 mb-6">
+                  {features.map((f, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={v ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
+                        <span className="text-primary">{f.icon}</span>
+                      </div>
+                      <span className="text-sm" style={{ color: "hsl(0 0% 78%)" }}>{f.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
 
-              <motion.button
-                onClick={openQuiz}
-                className="btn-primary"
-                style={{ padding: "14px 36px", fontSize: 14 }}
-                whileHover={{ scale: 1.03, boxShadow: "0 6px 28px hsl(var(--primary) / 0.4)" }}
-                whileTap={{ scale: 0.97 }}
-              >
-                Vreau analiza gratuită
-              </motion.button>
+                <p className="text-muted-foreground mb-4" style={{ fontSize: 12 }}>Fără obligații · Primești raportul în 24-48h</p>
 
-              <p className="text-muted-foreground/40 mt-3" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
+                <motion.button
+                  onClick={openQuiz}
+                  className="btn-primary"
+                  style={{ padding: "14px 36px", fontSize: 14 }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 6px 28px hsl(var(--primary) / 0.4)" }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Vreau analiza gratuită
+                </motion.button>
+
+                <p className="text-muted-foreground/40 mt-3" style={{ fontSize: 11 }}>Răspundem în max 2 ore</p>
+              </div>
           </div>
         </motion.div>
       </div>

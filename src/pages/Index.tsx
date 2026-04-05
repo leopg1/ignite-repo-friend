@@ -468,7 +468,7 @@ function ROIBlock({ openQuiz }: { openQuiz: () => void }) {
 function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
   const { ref, v } = useReveal();
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
           className="glass-card relative overflow-hidden" style={{ padding: 0, borderColor: "hsl(var(--primary) / 0.2)" }}>

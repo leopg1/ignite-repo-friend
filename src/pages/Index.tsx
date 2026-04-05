@@ -43,12 +43,20 @@ const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 20 }, animate: { opac
 
 /* ─── SECTION WRAPPER ─── */
 import { forwardRef } from "react";
-const Section = forwardRef<HTMLDivElement, { id?: string; children: React.ReactNode; alt?: boolean; className?: string; style?: React.CSSProperties }>(
-  ({ id, children, alt, className = "", style = {} }, ref) => (
-    <section ref={ref} id={id} className={className} style={{ position: "relative", zIndex: 2, padding: "80px 24px", background: alt ? "hsl(240 10% 5%)" : "transparent", ...style }}>
-      {children}
-    </section>
-  )
+const Section = forwardRef<HTMLDivElement, { id?: string; children: React.ReactNode; alt?: boolean; className?: string; style?: React.CSSProperties; fadeIn?: boolean; fadeOut?: boolean; divider?: boolean }>(
+  ({ id, children, alt, className = "", fadeIn, fadeOut, divider, style = {} }, ref) => {
+    const transitionClasses = [
+      alt && fadeIn ? "section-alt-fade-in" : !alt && fadeIn ? "section-fade-in" : "",
+      alt && fadeOut ? "section-alt-fade-out" : !alt && fadeOut ? "section-fade-out" : "",
+      divider ? "section-divider" : "",
+    ].filter(Boolean).join(" ");
+
+    return (
+      <section ref={ref} id={id} className={`${transitionClasses} ${className}`} style={{ position: "relative", zIndex: 2, padding: "96px 24px", background: alt ? "hsl(240 10% 5%)" : "transparent", ...style }}>
+        {children}
+      </section>
+    );
+  }
 );
 Section.displayName = "Section";
 
@@ -265,7 +273,7 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
     { icon: <TrendingUp size={20} />, title: "Rezultate de business", desc: "Livrăm soluții care economisesc timp sau aduc bani." },
   ];
   return (
-    <Section ref={ref} alt>
+    <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         {/* Pain points */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
@@ -320,7 +328,7 @@ function ForWhoBlock() {
     { icon: <Layers size={24} />, title: "Fondatori de SaaS", desc: "Vrei să transformi o idee în MVP funcțional, validat de utilizatori, fără investiție masivă." },
   ];
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
           <p className="label-sm mb-3">Pentru cine e Nexora</p>
@@ -359,7 +367,7 @@ function ServicesBlock() {
     { icon: Globe, title: "Prezență Online Completă", sub: "Website + branding + strategie", before: "Lipsă vizibilitate, fără leads", after: "Prezență profesională, leads constante", tools: "Web · SEO · Social · Ads" },
   ];
   return (
-    <Section id="servicii" ref={ref} alt>
+    <Section id="servicii" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
           <p className="label-sm mb-3">Servicii</p>
@@ -422,7 +430,7 @@ function ROIBlock({ openQuiz }: { openQuiz: () => void }) {
   };
 
   return (
-    <Section ref={ref} alt>
+    <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
           <p className="label-sm mb-3">Calculator ROI</p>
@@ -460,7 +468,7 @@ function ROIBlock({ openQuiz }: { openQuiz: () => void }) {
 function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
   const { ref, v } = useReveal();
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }}
           className="glass-card relative overflow-hidden" style={{ padding: 0, borderColor: "hsl(var(--primary) / 0.2)" }}>
@@ -506,7 +514,7 @@ function HowWeWorkBlock() {
     default: { color: "hsl(var(--primary) / 0.85)", border: "1px solid hsl(var(--primary) / 0.25)", background: "hsl(var(--primary) / 0.08)" },
   };
   return (
-    <Section id="cum-lucram" ref={ref}>
+    <Section id="cum-lucram" ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
           <p className="label-sm mb-3">Proces</p>
@@ -588,7 +596,7 @@ function PortfolioBlock() {
   ];
 
   return (
-    <Section ref={ref} alt>
+    <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
           <p className="label-sm mb-3">Produse proprii</p>
@@ -682,7 +690,7 @@ function StatsBlock() {
   ];
 
   return (
-    <Section ref={ref}>
+    <Section ref={ref} divider>
       {/* Subtle background orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.04)", filter: "blur(120px)" }} />
       <div style={{ maxWidth: 1152, margin: "0 auto", position: "relative" }}>
@@ -737,7 +745,7 @@ function FAQBlock() {
     { q: "Cu ce fel de firme lucrați?", a: "Cu antreprenori solo, startup-uri și firme mici care vor să crească fără echipă tech internă." },
   ];
   return (
-    <Section id="faq" ref={ref} alt>
+    <Section id="faq" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 672, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
           <p className="label-sm mb-3">FAQ</p>
@@ -764,7 +772,7 @@ function FAQBlock() {
 function FinalCTABlock({ openQuiz }: { openQuiz: () => void }) {
   const { ref, v } = useReveal();
   return (
-    <Section id="contact" ref={ref} style={{ overflow: "hidden" }}>
+    <Section id="contact" ref={ref} divider style={{ overflow: "hidden" }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="animate-float-orb absolute" style={{ top: "30%", left: "40%", width: 400, height: 400, borderRadius: "50%", background: "hsl(var(--primary) / 0.06)", filter: "blur(150px)" }} />
       </div>

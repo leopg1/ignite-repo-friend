@@ -808,7 +808,7 @@ function FooterBlock() {
           </div>
           <div>
             <h4 className="label-sm mb-3">Servicii</h4>
-            {["Automatizări", "Aplicații Web", "AI Integrat", "Platforme SaaS", "Redesign", "SEO"].map(item => (
+            {["Automatizări", "Aplicații Web & SaaS", "AI Integrat", "Redesign & SEO", "Consultanță", "Prezență Online"].map(item => (
               <p key={item} className="text-sm text-muted-foreground/50 mb-2">{item}</p>
             ))}
           </div>
@@ -823,6 +823,17 @@ function FooterBlock() {
             <a href="mailto:contact@nexora.ro" className="block text-sm text-muted-foreground/50 mb-2 hover:text-muted-foreground transition-colors" style={{ textDecoration: "none" }}>contact@nexora.ro</a>
           </div>
         </div>
+
+        {/* Legal */}
+        <div className="border-t border-border pt-5 mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground/40">
+            <div>
+              <p className="font-medium text-muted-foreground/50 mb-1">PĂDUREAN GABRIEL-LEONARD PERSOANĂ FIZICĂ AUTORIZATĂ</p>
+              <p>CUI: 54354457 · Nr. înregistrare: F2026016431005</p>
+            </div>
+          </div>
+        </div>
+
         <div className="border-t border-border pt-5 flex justify-between items-center flex-wrap gap-3 text-xs text-muted-foreground/30">
           <p>© {new Date().getFullYear()} Nexora. Toate drepturile rezervate.</p>
           <div className="flex gap-6">

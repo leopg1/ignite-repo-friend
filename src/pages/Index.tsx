@@ -514,7 +514,7 @@ function HowWeWorkBlock() {
     default: { color: "hsl(var(--primary) / 0.85)", border: "1px solid hsl(var(--primary) / 0.25)", background: "hsl(var(--primary) / 0.08)" },
   };
   return (
-    <Section id="cum-lucram" ref={ref}>
+    <Section id="cum-lucram" ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
           <p className="label-sm mb-3">Proces</p>

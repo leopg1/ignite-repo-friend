@@ -430,8 +430,7 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12" style={{ padding: "48px 40px" }}>
-            <div className="flex-1 text-center lg:text-left">
+          <div className="relative z-10 text-center lg:text-left" style={{ padding: "48px 40px" }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={v ? { opacity: 1, scale: 1 } : {}}

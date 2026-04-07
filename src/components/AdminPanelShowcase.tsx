@@ -3,10 +3,10 @@ import { BarChart3, Users, TrendingUp, ArrowUpRight, Bell, Search, MoreHorizonta
 
 const miniBarData = [35, 55, 40, 70, 50, 85, 65, 90, 75, 95, 80, 60];
 const recentActivity = [
-  { name: "Andrei M.", action: "Comandă nouă", amount: "+€1,240", time: "2m", color: "hsl(160 60% 45%)" },
-  { name: "Maria P.", action: "Cont creat", amount: "", time: "5m", color: "hsl(var(--primary))" },
-  { name: "Ion V.", action: "Plată procesată", amount: "+€890", time: "12m", color: "hsl(160 60% 45%)" },
-  { name: "Elena D.", action: "Abonament upgrade", amount: "+€49/lună", time: "18m", color: "hsl(var(--accent))" },
+  { name: "Andrei M.", action: "Comandă nouă", amount: "+€1,240", time: "2m", bg: "hsl(160 60% 45% / 0.15)", fg: "hsl(160 60% 45%)" },
+  { name: "Maria P.", action: "Cont creat", amount: "", time: "5m", bg: "hsl(var(--primary) / 0.15)", fg: "hsl(var(--primary))" },
+  { name: "Ion V.", action: "Plată procesată", amount: "+€890", time: "12m", bg: "hsl(var(--accent) / 0.15)", fg: "hsl(var(--accent))" },
+  { name: "Elena D.", action: "Abonament upgrade", amount: "+€49/lună", time: "18m", bg: "hsl(160 60% 45% / 0.15)", fg: "hsl(160 60% 45%)" },
 ];
 
 export default function AdminPanelShowcase() {

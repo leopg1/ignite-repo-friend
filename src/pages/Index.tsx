@@ -6,6 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { supabase } from "@/integrations/supabase/client";
 import serverIllustration from "@/assets/server-illustration.png";
 import AdminPanelShowcase from "@/components/AdminPanelShowcase";
+import ComparisonSlider from "@/components/ComparisonSlider";
 
 /* ─── SCROLL REVEAL HOOK ─── */
 function useReveal(threshold = 0.08) {

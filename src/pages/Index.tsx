@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import serverIllustration from "@/assets/server-illustration.png";
 import AdminPanelShowcase from "@/components/AdminPanelShowcase";
 import CodeEditorShowcase from "@/components/CodeEditorShowcase";
+import DeviceMockup from "@/components/DeviceMockup";
 
 /* ─── SCROLL REVEAL HOOK ─── */
 function useReveal(threshold = 0.08) {

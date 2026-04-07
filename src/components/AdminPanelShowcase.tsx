@@ -1,8 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BarChart3, Users, TrendingUp, ArrowUpRight, ArrowDownRight, Bell, Search, MoreHorizontal, ChevronRight, ShoppingCart, Mail, Settings, Check, Clock, AlertCircle } from "lucide-react";
+import { BarChart3, Users, TrendingUp, ArrowUpRight, ArrowDownRight, Bell, Search, MoreHorizontal, ChevronRight, ShoppingCart, Settings, Check, Clock, AlertCircle } from "lucide-react";
 
 const miniBarData = [35, 55, 40, 70, 50, 85, 65, 90, 75, 95, 80, 60];
+
+/* ── Animated counter hook ── */
+function useAnimatedNumber(target: number, duration = 1200, active = true) {
+  const [value, setValue] = useState(0);
+  const rafRef = useRef<number>();
+  useEffect(() => {
+    if (!active) { setValue(0); return; }
+    let start: number;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      // easeOutCubic
+      const ease = 1 - Math.pow(1 - p, 3);
+      setValue(Math.round(ease * target));
+      if (p < 1) rafRef.current = requestAnimationFrame(step);
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [target, duration, active]);
+  return value;
+}
+
+function AnimatedValue({ target, prefix = "", suffix = "", decimals = 0, active = true }: { target: number; prefix?: string; suffix?: string; decimals?: number; active?: boolean }) {
+  const val = useAnimatedNumber(target * (decimals ? 10 : 1), 1400, active);
+  const display = decimals ? (val / 10).toFixed(decimals) : val.toLocaleString();
+  return <>{prefix}{display}{suffix}</>;
+}
 
 /* ── Tab Data ── */
 const dashboardActivity = [
@@ -30,6 +57,7 @@ const ordersData = [
 
 type TabKey = "dashboard" | "users" | "orders";
 
+const tabKeys: TabKey[] = ["dashboard", "users", "orders"];
 const tabs: { key: TabKey; icon: typeof BarChart3; label: string }[] = [
   { key: "dashboard", icon: BarChart3, label: "Dashboard" },
   { key: "users", icon: Users, label: "Utilizatori" },
@@ -47,11 +75,53 @@ const statusColor = (s: string) => {
   return "hsl(40 90% 55%)";
 };
 
+const AUTO_SWITCH_INTERVAL = 4000;
+
 export default function AdminPanelShowcase() {
   const [activeTab, setActiveTab] = useState<TabKey>("dashboard");
+  const [isInView, setIsInView] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // IntersectionObserver for in-view detection
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      setIsInView(e.isIntersecting);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Auto-switch tabs
+  useEffect(() => {
+    if (!isInView || userInteracted) return;
+    timerRef.current = setInterval(() => {
+      setActiveTab(prev => {
+        const idx = tabKeys.indexOf(prev);
+        return tabKeys[(idx + 1) % tabKeys.length];
+      });
+    }, AUTO_SWITCH_INTERVAL);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [isInView, userInteracted]);
+
+  // Reset auto after user stops interacting (10s)
+  useEffect(() => {
+    if (!userInteracted) return;
+    const t = setTimeout(() => setUserInteracted(false), 10000);
+    return () => clearTimeout(t);
+  }, [userInteracted]);
+
+  const handleTabClick = useCallback((key: TabKey) => {
+    setActiveTab(key);
+    setUserInteracted(true);
+  }, []);
 
   return (
     <div
+      ref={containerRef}
       className="relative overflow-hidden rounded-2xl"
       style={{
         background: "hsl(240 12% 6%)",
@@ -68,7 +138,9 @@ export default function AdminPanelShowcase() {
         </div>
         <div className="flex items-center gap-2 rounded-lg px-3 py-1" style={{ background: "hsl(var(--secondary))", fontSize: 11, color: "hsl(var(--muted-foreground))" }}>
           <Search size={10} />
-          app.nexora.ro/{activeTab === "dashboard" ? "dashboard" : activeTab === "users" ? "users" : "orders"}
+          <motion.span key={activeTab} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
+            app.nexora.ro/{activeTab === "dashboard" ? "dashboard" : activeTab === "users" ? "users" : "orders"}
+          </motion.span>
         </div>
         <div className="flex items-center gap-2">
           <Bell size={13} className="text-muted-foreground" />
@@ -86,7 +158,7 @@ export default function AdminPanelShowcase() {
             return (
               <motion.button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
+                onClick={() => handleTabClick(tab.key)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors relative"
@@ -126,6 +198,19 @@ export default function AdminPanelShowcase() {
         </div>
       </div>
 
+      {/* Auto-switch progress bar */}
+      {!userInteracted && isInView && (
+        <div className="absolute bottom-0 left-0 right-0 h-0.5">
+          <motion.div
+            key={activeTab}
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: AUTO_SWITCH_INTERVAL / 1000, ease: "linear" }}
+            style={{ height: "100%", background: "hsl(var(--primary) / 0.4)" }}
+          />
+        </div>
+      )}
+
       {/* Reflection/glow overlay */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, hsl(var(--primary) / 0.03) 0%, transparent 40%)" }} />
     </div>
@@ -134,6 +219,12 @@ export default function AdminPanelShowcase() {
 
 /* ── Dashboard Tab ── */
 function DashboardTab() {
+  const stats = [
+    { label: "Venituri", target: 24580, prefix: "€", suffix: "", decimals: 0, change: "+18.2%" },
+    { label: "Utilizatori", target: 1247, prefix: "", suffix: "", decimals: 0, change: "+12.5%" },
+    { label: "Conversie", target: 48, prefix: "", suffix: "%", decimals: 1, change: "+0.6%" },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
@@ -142,13 +233,8 @@ function DashboardTab() {
       transition={{ duration: 0.25 }}
       className="space-y-4"
     >
-      {/* Top stats */}
       <div className="grid grid-cols-3 gap-2.5">
-        {[
-          { label: "Venituri", value: "€24,580", change: "+18.2%", up: true },
-          { label: "Utilizatori", value: "1,247", change: "+12.5%", up: true },
-          { label: "Conversie", value: "4.8%", change: "+0.6%", up: true },
-        ].map((stat, i) => (
+        {stats.map((stat, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
@@ -158,7 +244,9 @@ function DashboardTab() {
             style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}
           >
             <p style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{stat.label}</p>
-            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>{stat.value}</p>
+            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>
+              <AnimatedValue target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals} />
+            </p>
             <div className="flex items-center gap-1 mt-1">
               <ArrowUpRight size={10} style={{ color: "hsl(160 60% 45%)" }} />
               <span style={{ fontSize: 10, color: "hsl(160 60% 45%)", fontWeight: 500 }}>{stat.change}</span>
@@ -168,7 +256,6 @@ function DashboardTab() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
-        {/* Chart area */}
         <div className="flex-1 rounded-xl p-3" style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}>
           <div className="flex items-center justify-between mb-3">
             <p style={{ fontSize: 11, fontWeight: 600, color: "hsl(var(--foreground))" }}>Venituri lunare</p>
@@ -199,7 +286,6 @@ function DashboardTab() {
           </div>
         </div>
 
-        {/* Activity feed */}
         <div className="sm:w-[200px] rounded-xl p-3" style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}>
           <div className="flex items-center justify-between mb-3">
             <p style={{ fontSize: 11, fontWeight: 600, color: "hsl(var(--foreground))" }}>Activitate</p>
@@ -235,6 +321,12 @@ function DashboardTab() {
 
 /* ── Users Tab ── */
 function UsersTab() {
+  const stats = [
+    { label: "Total utilizatori", target: 1247, prefix: "", suffix: "", decimals: 0, change: "+42 luna asta" },
+    { label: "Activi acum", target: 312, prefix: "", suffix: "", decimals: 0, change: "25% din total" },
+    { label: "Rata retenție", target: 942, prefix: "", suffix: "%", decimals: 1, change: "+2.1%" },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
@@ -243,13 +335,8 @@ function UsersTab() {
       transition={{ duration: 0.25 }}
       className="space-y-4"
     >
-      {/* Stats row */}
       <div className="grid grid-cols-3 gap-2.5">
-        {[
-          { label: "Total utilizatori", value: "1,247", change: "+42 luna asta", up: true },
-          { label: "Activi acum", value: "312", change: "25% din total", up: true },
-          { label: "Rata retenție", value: "94.2%", change: "+2.1%", up: true },
-        ].map((stat, i) => (
+        {stats.map((stat, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
@@ -259,7 +346,9 @@ function UsersTab() {
             style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}
           >
             <p style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{stat.label}</p>
-            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>{stat.value}</p>
+            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>
+              <AnimatedValue target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals} />
+            </p>
             <div className="flex items-center gap-1 mt-1">
               <ArrowUpRight size={10} style={{ color: "hsl(160 60% 45%)" }} />
               <span style={{ fontSize: 10, color: "hsl(160 60% 45%)", fontWeight: 500 }}>{stat.change}</span>
@@ -268,7 +357,6 @@ function UsersTab() {
         ))}
       </div>
 
-      {/* Users table */}
       <div className="rounded-xl overflow-hidden" style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}>
         <div className="flex items-center justify-between px-3 py-2.5" style={{ borderBottom: "1px solid hsl(var(--border) / 0.3)" }}>
           <p style={{ fontSize: 11, fontWeight: 600, color: "hsl(var(--foreground))" }}>Utilizatori recenți</p>
@@ -276,7 +364,6 @@ function UsersTab() {
             <Search size={9} /> Caută...
           </div>
         </div>
-        {/* Header */}
         <div className="grid grid-cols-4 gap-2 px-3 py-1.5" style={{ fontSize: 9, color: "hsl(var(--muted-foreground))", textTransform: "uppercase", letterSpacing: "0.1em", borderBottom: "1px solid hsl(var(--border) / 0.2)" }}>
           <span>Nume</span><span>Email</span><span>Plan</span><span>Status</span>
         </div>
@@ -298,8 +385,7 @@ function UsersTab() {
             <span className="truncate" style={{ fontSize: 10, color: "hsl(var(--muted-foreground))" }}>{user.email}</span>
             <span className="inline-flex items-center rounded-full px-1.5 py-0.5 w-fit" style={{ fontSize: 9, fontWeight: 500, background: "hsl(var(--primary) / 0.1)", color: "hsl(var(--primary))" }}>{user.plan}</span>
             <span style={{
-              fontSize: 9,
-              fontWeight: 500,
+              fontSize: 9, fontWeight: 500,
               color: user.status === "Activ" ? "hsl(160 60% 45%)" : user.status === "Trial" ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"
             }}>● {user.status}</span>
           </motion.div>
@@ -311,6 +397,12 @@ function UsersTab() {
 
 /* ── Orders Tab ── */
 function OrdersTab() {
+  const stats = [
+    { label: "Comenzi azi", target: 23, prefix: "", suffix: "", decimals: 0, change: "+5 vs ieri", up: true },
+    { label: "Valoare totală", target: 8420, prefix: "€", suffix: "", decimals: 0, change: "+22%", up: true },
+    { label: "Rata anulare", target: 12, prefix: "", suffix: "%", decimals: 1, change: "-0.3%", up: false },
+  ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
@@ -319,13 +411,8 @@ function OrdersTab() {
       transition={{ duration: 0.25 }}
       className="space-y-4"
     >
-      {/* Stats */}
       <div className="grid grid-cols-3 gap-2.5">
-        {[
-          { label: "Comenzi azi", value: "23", change: "+5 vs ieri", up: true },
-          { label: "Valoare totală", value: "€8,420", change: "+22%", up: true },
-          { label: "Rata anulare", value: "1.2%", change: "-0.3%", up: false },
-        ].map((stat, i) => (
+        {stats.map((stat, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
@@ -335,7 +422,9 @@ function OrdersTab() {
             style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}
           >
             <p style={{ fontSize: 10, color: "hsl(var(--muted-foreground))", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{stat.label}</p>
-            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>{stat.value}</p>
+            <p className="font-heading font-bold text-foreground" style={{ fontSize: 17 }}>
+              <AnimatedValue target={stat.target} prefix={stat.prefix} suffix={stat.suffix} decimals={stat.decimals} />
+            </p>
             <div className="flex items-center gap-1 mt-1">
               {stat.up
                 ? <ArrowUpRight size={10} style={{ color: "hsl(160 60% 45%)" }} />
@@ -347,13 +436,11 @@ function OrdersTab() {
         ))}
       </div>
 
-      {/* Orders table */}
       <div className="rounded-xl overflow-hidden" style={{ background: "hsl(var(--secondary))", border: "1px solid hsl(var(--border) / 0.5)" }}>
         <div className="flex items-center justify-between px-3 py-2.5" style={{ borderBottom: "1px solid hsl(var(--border) / 0.3)" }}>
           <p style={{ fontSize: 11, fontWeight: 600, color: "hsl(var(--foreground))" }}>Comenzi recente</p>
           <MoreHorizontal size={13} className="text-muted-foreground" />
         </div>
-        {/* Header */}
         <div className="grid grid-cols-5 gap-2 px-3 py-1.5" style={{ fontSize: 9, color: "hsl(var(--muted-foreground))", textTransform: "uppercase", letterSpacing: "0.1em", borderBottom: "1px solid hsl(var(--border) / 0.2)" }}>
           <span>ID</span><span>Client</span><span>Total</span><span>Status</span><span>Dată</span>
         </div>

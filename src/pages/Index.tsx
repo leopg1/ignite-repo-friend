@@ -720,6 +720,25 @@ function PortfolioBlock() {
             </motion.div>
           ))}
         </div>
+
+        {/* Device Mockup */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16"
+        >
+          <div className="text-center mb-8">
+            <p className="label-sm mb-2">Live preview</p>
+            <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
+              Aplicații care rulează <span className="gradient-text">pe orice device</span>
+            </h3>
+            <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 480, margin: "8px auto 0" }}>
+              Responsive, rapid, profesional — de la desktop la mobil.
+            </p>
+          </div>
+          <DeviceMockup />
+        </motion.div>
       </div>
     </Section>
   );

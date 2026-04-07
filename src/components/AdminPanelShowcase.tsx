@@ -137,7 +137,7 @@ export default function AdminPanelShowcase() {
                     transition={{ delay: 0.9 + i * 0.1, duration: 0.4 }}
                     className="flex items-center gap-2"
                   >
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: item.color + " / 0.15)", fontSize: 8, fontWeight: 700, color: item.color }}>
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: item.bg, fontSize: 8, fontWeight: 700, color: item.fg }}>
                       {item.name.charAt(0)}
                     </div>
                     <div className="flex-1 min-w-0">

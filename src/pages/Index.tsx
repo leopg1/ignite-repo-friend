@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { supabase } from "@/integrations/supabase/client";
 import serverIllustration from "@/assets/server-illustration.png";
+import AdminPanelShowcase from "@/components/AdminPanelShowcase";
 
 /* ─── SCROLL REVEAL HOOK ─── */
 function useReveal(threshold = 0.08) {
@@ -396,6 +397,25 @@ function ServicesBlock() {
               </motion.div>
             );
           })}
+        </motion.div>
+
+        {/* Admin Panel Showcase */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={v ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-14"
+        >
+          <div className="text-center mb-6">
+            <p className="label-sm mb-2">Exemplu real</p>
+            <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
+              Dashboard-uri pe care le construim
+            </h3>
+            <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
+              Aplicații complete cu analytics, management utilizatori și rapoarte — adaptate afacerii tale.
+            </p>
+          </div>
+          <AdminPanelShowcase />
         </motion.div>
       </div>
     </Section>

@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { supabase } from "@/integrations/supabase/client";
 import serverIllustration from "@/assets/server-illustration.png";
 import AdminPanelShowcase from "@/components/AdminPanelShowcase";
-import ComparisonSlider from "@/components/ComparisonSlider";
+import CodeEditorShowcase from "@/components/CodeEditorShowcase";
 
 /* ─── SCROLL REVEAL HOOK ─── */
 function useReveal(threshold = 0.08) {
@@ -419,7 +419,7 @@ function ServicesBlock() {
           <AdminPanelShowcase />
         </motion.div>
 
-        {/* Comparison Slider - Before/After */}
+        {/* Code Editor Showcase */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={v ? { opacity: 1, y: 0 } : {}}
@@ -427,16 +427,16 @@ function ServicesBlock() {
           className="mt-14"
         >
           <div className="text-center mb-6">
-            <p className="label-sm mb-2">Redesign</p>
+            <p className="label-sm mb-2">Automatizări & AI</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
-              Diferența unui redesign <span className="gradient-text">profesional</span>
+              Cod care lucrează <span className="gradient-text">pentru tine</span>
             </h3>
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
-              Trage slider-ul și vezi transformarea. De la site învechit la prezență online modernă.
+              Pipeline-uri AI și automatizări care rulează non-stop — zero intervenție manuală.
             </p>
           </div>
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <ComparisonSlider />
+            <CodeEditorShowcase />
           </div>
         </motion.div>
       </div>

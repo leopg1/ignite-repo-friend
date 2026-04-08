@@ -823,7 +823,7 @@ function FinalCTABlock({ openQuiz }: { openQuiz: () => void }) {
       <div className="absolute inset-0 pointer-events-none">
         <div className="animate-float-orb absolute" style={{ top: "30%", left: "40%", width: 400, height: 400, borderRadius: "50%", background: "hsl(var(--primary) / 0.06)", filter: "blur(150px)" }} />
       </div>
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}
+      <motion.div {...scrollRevealScale()}
         className="relative z-10 text-center" style={{ maxWidth: 1152, margin: "0 auto" }}>
         <p className="label-sm mb-3">Hai să discutăm</p>
         <h2 className="font-heading font-bold text-foreground mb-4" style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}>

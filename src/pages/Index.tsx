@@ -314,13 +314,13 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
         </div>
 
         {/* De ce Nexora */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.2 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">De ce Nexora</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Nu suntem o agenție tipică.</h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {diffs.map((d, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover text-center" style={{ padding: 24 }}>
+            <motion.div key={i} {...scrollRevealScale(i * 0.08)} className="glass-card-hover text-center" style={{ padding: 24 }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary mx-auto mb-3" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
                 {d.icon}
               </div>
@@ -328,9 +328,9 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
               <p className="text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={v ? { opacity: 1 } : {}} transition={{ delay: 0.6 }} className="text-center mt-8">
+        <motion.div {...scrollReveal(0.3)} className="text-center mt-8">
           <motion.button onClick={openQuiz} className="btn-tertiary" style={{ fontSize: 14, background: "none", border: "none", cursor: "pointer" }}
             whileHover={{ x: 4 }}>
             Hai să rezolvăm asta

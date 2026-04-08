@@ -41,9 +41,25 @@ function useCounter(end: number, duration: number, start: boolean) {
 }
 
 /* ─── ANIMATION HELPERS ─── */
-const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
-const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } } };
-const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.6, delay, ease: "easeOut" as const } });
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
+const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } };
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(6px)" },
+  visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.6, ease } }
+};
+const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.7, delay, ease } });
+const scrollReveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 40, filter: "blur(8px)" },
+  whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
+  viewport: { once: true, margin: "-60px" },
+  transition: { duration: 0.7, delay, ease },
+});
+const scrollRevealScale = (delay = 0) => ({
+  initial: { opacity: 0, y: 50, scale: 0.92, filter: "blur(10px)" },
+  whileInView: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.8, delay, ease },
+});
 
 /* ─── SECTION WRAPPER ─── */
 import { forwardRef } from "react";
@@ -280,14 +296,14 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
     <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         {/* Pain points */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">Recunoști asta?</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Semnele că e timpul să acționezi</h2>
           <p className="text-muted-foreground mx-auto" style={{ maxWidth: 480, fontSize: 14 }}>Dacă bifezi măcar 2 din cele de mai jos, hai să vorbim.</p>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
           {items.map((p, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover" whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            <motion.div key={i} {...scrollReveal(i * 0.06)} className="glass-card-hover" whileHover={{ y: -2, transition: { duration: 0.2 } }}
               style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 14 }}>
               <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>
                 {p.icon}
@@ -295,16 +311,16 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
               <p className="text-sm leading-relaxed" style={{ color: "hsl(0 0% 82%)" }}>{p.text}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* De ce Nexora */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.2 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">De ce Nexora</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Nu suntem o agenție tipică.</h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {diffs.map((d, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover text-center" style={{ padding: 24 }}>
+            <motion.div key={i} {...scrollRevealScale(i * 0.08)} className="glass-card-hover text-center" style={{ padding: 24 }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-primary mx-auto mb-3" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
                 {d.icon}
               </div>
@@ -312,9 +328,9 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
               <p className="text-sm text-muted-foreground leading-relaxed">{d.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0 }} animate={v ? { opacity: 1 } : {}} transition={{ delay: 0.6 }} className="text-center mt-8">
+        <motion.div {...scrollReveal(0.3)} className="text-center mt-8">
           <motion.button onClick={openQuiz} className="btn-tertiary" style={{ fontSize: 14, background: "none", border: "none", cursor: "pointer" }}
             whileHover={{ x: 4 }}>
             Hai să rezolvăm asta
@@ -334,15 +350,15 @@ function ForWhoBlock() {
   return (
     <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Pentru cine e Nexora</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             Dacă te regăsești aici, suntem <span className="gradient-text">echipa ta.</span>
           </h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {profiles.map((p, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover group" style={{ padding: 28 }}>
+            <motion.div key={i} {...scrollRevealScale(i * 0.1)} className="glass-card-hover group" style={{ padding: 28 }}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 text-primary transition-transform group-hover:scale-110" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>
                 {p.icon}
               </div>
@@ -350,7 +366,7 @@ function ForWhoBlock() {
               <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </Section>
   );
@@ -373,15 +389,15 @@ function ServicesBlock() {
   return (
     <Section id="servicii" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Servicii</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Ce construim</h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
-              <motion.div key={i} variants={itemVariants} className="glass-card-hover group" whileHover={{ y: -4, transition: { duration: 0.25 } }}
+              <motion.div key={i} {...scrollRevealScale(i * 0.06)} className="glass-card-hover group" whileHover={{ y: -4, transition: { duration: 0.25 } }}
                 style={{ padding: "24px 20px", textAlign: "center" }}>
                 <motion.div whileHover={{ rotate: 8, scale: 1.1 }} transition={{ type: "spring", stiffness: 300 }}
                   className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4 text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.1)" }}>
@@ -399,16 +415,11 @@ function ServicesBlock() {
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* Admin Panel Showcase */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-14"
-        >
-          <div className="text-center mb-6">
+        <motion.div {...scrollRevealScale(0.1)} className="mt-14">
+          <motion.div {...scrollReveal()} className="text-center mb-6">
             <p className="label-sm mb-2">Exemplu real</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
               Dashboard-uri pe care le construim
@@ -416,18 +427,13 @@ function ServicesBlock() {
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
               Aplicații complete cu analytics, management utilizatori și rapoarte — adaptate afacerii tale.
             </p>
-          </div>
+          </motion.div>
           <AdminPanelShowcase />
         </motion.div>
 
         {/* Code Editor Showcase */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.55 }}
-          className="mt-14"
-        >
-          <div className="text-center mb-6">
+        <motion.div {...scrollRevealScale(0.1)} className="mt-14">
+          <motion.div {...scrollReveal()} className="text-center mb-6">
             <p className="label-sm mb-2">Automatizări & AI</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
               Cod care lucrează <span className="gradient-text">pentru tine</span>
@@ -435,7 +441,7 @@ function ServicesBlock() {
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
               Pipeline-uri AI și automatizări care rulează non-stop — zero intervenție manuală.
             </p>
-          </div>
+          </motion.div>
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
             <CodeEditorShowcase />
           </div>
@@ -461,26 +467,20 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
     <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          {...scrollRevealScale()}
           className="relative overflow-hidden rounded-3xl"
           style={{
             background: "linear-gradient(135deg, hsl(240 10% 7%) 0%, hsl(244 30% 12%) 50%, hsl(240 10% 7%) 100%)",
             border: "1px solid hsl(244 40% 30% / 0.3)",
           }}
         >
-          {/* Ambient glow */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-16" style={{ padding: "48px 40px" }}>
-              {/* Left: all info */}
               <div className="flex-1 text-center lg:text-left">
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={v ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+                  {...scrollReveal(0.1)}
                   className="inline-flex items-center gap-1.5 rounded-full mb-4"
                   style={{ padding: "5px 14px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)", letterSpacing: "0.05em" }}
                 >
@@ -498,9 +498,7 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                   {features.map((f, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={v ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+                      {...scrollReveal(0.15 + i * 0.08)}
                       className="flex items-center gap-3"
                     >
                       <div className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
@@ -512,11 +510,8 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                 </div>
               </div>
 
-              {/* Right: Illustration + CTA */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={v ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.35 }}
+                {...scrollRevealScale(0.2)}
                 className="shrink-0 flex flex-col items-center text-center"
                 style={{ minWidth: 280, maxWidth: 360 }}
               >
@@ -564,7 +559,7 @@ function HowWeWorkBlock() {
   return (
     <Section id="cum-lucram" ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
+        <motion.div {...scrollReveal()} className="text-center mb-14">
           <p className="label-sm mb-3">Proces</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Simplu. Transparent. Fără surprize.</h2>
           <p className="text-muted-foreground mx-auto" style={{ maxWidth: 480, fontSize: 14 }}>Tu nu atingi nicio linie de cod. Noi facem tot.</p>
@@ -572,25 +567,19 @@ function HowWeWorkBlock() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 relative gap-y-10 gap-x-0">
           {steps.map((s, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={v ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(0.05 + i * 0.08)}
               className="text-center relative z-[1] flex flex-col items-center px-5">
               <div className="relative inline-block mb-4">
                 <div className="absolute -inset-3 rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(16px)" }} />
-                <motion.p className="gradient-text font-heading font-bold relative"
-                  initial={{ scale: 0.8 }} animate={v ? { scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
+                <p className="gradient-text font-heading font-bold relative"
                   style={{ fontSize: "clamp(2.5rem, 4vw, 3rem)", lineHeight: 1 }}>
                   {s.num}
-                </motion.p>
+                </p>
               </div>
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }} animate={v ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+              <span
                 className="inline-block rounded-full text-xs font-semibold mb-4" style={{ padding: "4px 12px", letterSpacing: "0.04em", ...badgeStyles[s.badgeType] }}>
                 {s.badge}
-              </motion.span>
+              </span>
               <h3 className="font-heading font-bold text-foreground mb-2" style={{ fontSize: 15 }}>{s.title}</h3>
               <p className="text-muted-foreground leading-relaxed mx-auto" style={{ fontSize: 13, maxWidth: 220 }}>{s.desc}</p>
             </motion.div>
@@ -646,7 +635,7 @@ function PortfolioBlock() {
   return (
     <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
+        <motion.div {...scrollReveal()} className="text-center mb-14">
           <p className="label-sm mb-3">Produse proprii</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             SaaS-uri <span className="gradient-text">dezvoltate de noi.</span>
@@ -663,9 +652,7 @@ function PortfolioBlock() {
           {products.map((p, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={v ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(i * 0.12)}
               className="glass-card-hover group relative overflow-hidden"
               style={{ padding: 0 }}
             >
@@ -722,13 +709,8 @@ function PortfolioBlock() {
         </div>
 
         {/* Device Mockup */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-16"
-        >
-          <div className="text-center mb-8">
+        <motion.div {...scrollRevealScale(0.1)} className="mt-16">
+          <motion.div {...scrollReveal()} className="text-center mb-8">
             <p className="label-sm mb-2">Live preview</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
               Aplicații care rulează <span className="gradient-text">pe orice device</span>
@@ -736,7 +718,7 @@ function PortfolioBlock() {
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 480, margin: "8px auto 0" }}>
               Responsive, rapid, profesional — de la desktop la mobil.
             </p>
-          </div>
+          </motion.div>
           <DeviceMockup />
         </motion.div>
       </div>
@@ -761,7 +743,7 @@ function StatsBlock() {
       {/* Subtle background orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.04)", filter: "blur(120px)" }} />
       <div style={{ maxWidth: 1152, margin: "0 auto", position: "relative" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Nexora în cifre</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             Angajamentul nostru în <span className="gradient-text">fapte, nu vorbe.</span>
@@ -770,9 +752,7 @@ function StatsBlock() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((s, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 24, scale: 0.95 }}
-              animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(i * 0.08)}
               className="glass-card-hover text-center relative" style={{ padding: "28px 20px" }}>
               <div className="flex justify-center mb-4">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>
@@ -814,11 +794,11 @@ function FAQBlock() {
   return (
     <Section id="faq" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 672, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">FAQ</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Întrebări frecvente</h2>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.15 }}>
+        <motion.div {...scrollReveal(0.1)}>
           <Accordion type="single" collapsible className="space-y-2">
             {faqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="glass-card border-none px-5">
@@ -843,7 +823,7 @@ function FinalCTABlock({ openQuiz }: { openQuiz: () => void }) {
       <div className="absolute inset-0 pointer-events-none">
         <div className="animate-float-orb absolute" style={{ top: "30%", left: "40%", width: 400, height: 400, borderRadius: "50%", background: "hsl(var(--primary) / 0.06)", filter: "blur(150px)" }} />
       </div>
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8 }}
+      <motion.div {...scrollRevealScale()}
         className="relative z-10 text-center" style={{ maxWidth: 1152, margin: "0 auto" }}>
         <p className="label-sm mb-3">Hai să discutăm</p>
         <h2 className="font-heading font-bold text-foreground mb-4" style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}>

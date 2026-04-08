@@ -120,8 +120,12 @@ export default function AdminPanelShowcase() {
   }, []);
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
+      initial={{ opacity: 0, y: 60, scale: 0.92, filter: "blur(12px)" }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
       className="relative overflow-hidden rounded-2xl"
       style={{
         background: "hsl(240 12% 6%)",

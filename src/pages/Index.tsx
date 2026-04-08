@@ -635,7 +635,7 @@ function PortfolioBlock() {
   return (
     <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
+        <motion.div {...scrollReveal()} className="text-center mb-14">
           <p className="label-sm mb-3">Produse proprii</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             SaaS-uri <span className="gradient-text">dezvoltate de noi.</span>
@@ -652,9 +652,7 @@ function PortfolioBlock() {
           {products.map((p, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={v ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(i * 0.12)}
               className="glass-card-hover group relative overflow-hidden"
               style={{ padding: 0 }}
             >

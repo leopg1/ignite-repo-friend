@@ -41,23 +41,24 @@ function useCounter(end: number, duration: number, start: boolean) {
 }
 
 /* ─── ANIMATION HELPERS ─── */
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } };
 const itemVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.6, ease } }
 };
-const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] } });
+const fadeUp = (delay = 0) => ({ initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.7, delay, ease } });
 const scrollReveal = (delay = 0) => ({
   initial: { opacity: 0, y: 40, filter: "blur(8px)" },
   whileInView: { opacity: 1, y: 0, filter: "blur(0px)" },
   viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.7, delay, ease },
 });
 const scrollRevealScale = (delay = 0) => ({
   initial: { opacity: 0, y: 50, scale: 0.92, filter: "blur(10px)" },
   whileInView: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] },
+  transition: { duration: 0.8, delay, ease },
 });
 
 /* ─── SECTION WRAPPER ─── */

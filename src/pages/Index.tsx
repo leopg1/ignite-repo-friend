@@ -794,11 +794,11 @@ function FAQBlock() {
   return (
     <Section id="faq" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 672, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">FAQ</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Întrebări frecvente</h2>
         </motion.div>
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.15 }}>
+        <motion.div {...scrollReveal(0.1)}>
           <Accordion type="single" collapsible className="space-y-2">
             {faqs.map((f, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="glass-card border-none px-5">

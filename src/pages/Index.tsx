@@ -296,14 +296,14 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
     <Section ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         {/* Pain points */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-10">
+        <motion.div {...scrollReveal()} className="text-center mb-10">
           <p className="label-sm mb-3">Recunoști asta?</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Semnele că e timpul să acționezi</h2>
           <p className="text-muted-foreground mx-auto" style={{ maxWidth: 480, fontSize: 14 }}>Dacă bifezi măcar 2 din cele de mai jos, hai să vorbim.</p>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-16">
           {items.map((p, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover" whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            <motion.div key={i} {...scrollReveal(i * 0.06)} className="glass-card-hover" whileHover={{ y: -2, transition: { duration: 0.2 } }}
               style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 14 }}>
               <div className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>
                 {p.icon}
@@ -311,7 +311,7 @@ function PainPointsAndWhyBlock({ openQuiz }: { openQuiz: () => void }) {
               <p className="text-sm leading-relaxed" style={{ color: "hsl(0 0% 82%)" }}>{p.text}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         {/* De ce Nexora */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay: 0.2 }} className="text-center mb-10">

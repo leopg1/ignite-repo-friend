@@ -743,7 +743,7 @@ function StatsBlock() {
       {/* Subtle background orb */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.04)", filter: "blur(120px)" }} />
       <div style={{ maxWidth: 1152, margin: "0 auto", position: "relative" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Nexora în cifre</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             Angajamentul nostru în <span className="gradient-text">fapte, nu vorbe.</span>
@@ -752,9 +752,7 @@ function StatsBlock() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((s, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 24, scale: 0.95 }}
-              animate={v ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(i * 0.08)}
               className="glass-card-hover text-center relative" style={{ padding: "28px 20px" }}>
               <div className="flex justify-center mb-4">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>

@@ -389,15 +389,15 @@ function ServicesBlock() {
   return (
     <Section id="servicii" ref={ref} alt fadeIn fadeOut>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Servicii</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Ce construim</h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
-              <motion.div key={i} variants={itemVariants} className="glass-card-hover group" whileHover={{ y: -4, transition: { duration: 0.25 } }}
+              <motion.div key={i} {...scrollRevealScale(i * 0.06)} className="glass-card-hover group" whileHover={{ y: -4, transition: { duration: 0.25 } }}
                 style={{ padding: "24px 20px", textAlign: "center" }}>
                 <motion.div whileHover={{ rotate: 8, scale: 1.1 }} transition={{ type: "spring", stiffness: 300 }}
                   className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4 text-primary" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.1)" }}>
@@ -415,16 +415,11 @@ function ServicesBlock() {
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
         {/* Admin Panel Showcase */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-14"
-        >
-          <div className="text-center mb-6">
+        <motion.div {...scrollRevealScale(0.1)} className="mt-14">
+          <motion.div {...scrollReveal()} className="text-center mb-6">
             <p className="label-sm mb-2">Exemplu real</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
               Dashboard-uri pe care le construim
@@ -432,18 +427,13 @@ function ServicesBlock() {
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
               Aplicații complete cu analytics, management utilizatori și rapoarte — adaptate afacerii tale.
             </p>
-          </div>
+          </motion.div>
           <AdminPanelShowcase />
         </motion.div>
 
         {/* Code Editor Showcase */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.55 }}
-          className="mt-14"
-        >
-          <div className="text-center mb-6">
+        <motion.div {...scrollRevealScale(0.1)} className="mt-14">
+          <motion.div {...scrollReveal()} className="text-center mb-6">
             <p className="label-sm mb-2">Automatizări & AI</p>
             <h3 className="font-heading font-semibold text-foreground" style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}>
               Cod care lucrează <span className="gradient-text">pentru tine</span>
@@ -451,7 +441,7 @@ function ServicesBlock() {
             <p className="text-muted-foreground mt-2" style={{ fontSize: 13, maxWidth: 500, margin: "8px auto 0" }}>
               Pipeline-uri AI și automatizări care rulează non-stop — zero intervenție manuală.
             </p>
-          </div>
+          </motion.div>
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
             <CodeEditorShowcase />
           </div>

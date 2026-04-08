@@ -350,15 +350,15 @@ function ForWhoBlock() {
   return (
     <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-12">
+        <motion.div {...scrollReveal()} className="text-center mb-12">
           <p className="label-sm mb-3">Pentru cine e Nexora</p>
           <h2 className="font-heading font-bold text-foreground" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>
             Dacă te regăsești aici, suntem <span className="gradient-text">echipa ta.</span>
           </h2>
         </motion.div>
-        <motion.div variants={containerVariants} initial="hidden" animate={v ? "visible" : "hidden"} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {profiles.map((p, i) => (
-            <motion.div key={i} variants={itemVariants} className="glass-card-hover group" style={{ padding: 28 }}>
+            <motion.div key={i} {...scrollRevealScale(i * 0.1)} className="glass-card-hover group" style={{ padding: 28 }}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 text-primary transition-transform group-hover:scale-110" style={{ background: "hsl(var(--primary) / 0.08)", border: "1px solid hsl(var(--primary) / 0.12)" }}>
                 {p.icon}
               </div>
@@ -366,7 +366,7 @@ function ForWhoBlock() {
               <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </Section>
   );

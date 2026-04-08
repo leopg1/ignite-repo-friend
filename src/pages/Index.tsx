@@ -559,7 +559,7 @@ function HowWeWorkBlock() {
   return (
     <Section id="cum-lucram" ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={v ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7 }} className="text-center mb-14">
+        <motion.div {...scrollReveal()} className="text-center mb-14">
           <p className="label-sm mb-3">Proces</p>
           <h2 className="font-heading font-bold text-foreground mb-3" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}>Simplu. Transparent. Fără surprize.</h2>
           <p className="text-muted-foreground mx-auto" style={{ maxWidth: 480, fontSize: 14 }}>Tu nu atingi nicio linie de cod. Noi facem tot.</p>
@@ -567,25 +567,19 @@ function HowWeWorkBlock() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 relative gap-y-10 gap-x-0">
           {steps.map((s, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={v ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              {...scrollRevealScale(0.05 + i * 0.08)}
               className="text-center relative z-[1] flex flex-col items-center px-5">
               <div className="relative inline-block mb-4">
                 <div className="absolute -inset-3 rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(16px)" }} />
-                <motion.p className="gradient-text font-heading font-bold relative"
-                  initial={{ scale: 0.8 }} animate={v ? { scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
+                <p className="gradient-text font-heading font-bold relative"
                   style={{ fontSize: "clamp(2.5rem, 4vw, 3rem)", lineHeight: 1 }}>
                   {s.num}
-                </motion.p>
+                </p>
               </div>
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }} animate={v ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
+              <span
                 className="inline-block rounded-full text-xs font-semibold mb-4" style={{ padding: "4px 12px", letterSpacing: "0.04em", ...badgeStyles[s.badgeType] }}>
                 {s.badge}
-              </motion.span>
+              </span>
               <h3 className="font-heading font-bold text-foreground mb-2" style={{ fontSize: 15 }}>{s.title}</h3>
               <p className="text-muted-foreground leading-relaxed mx-auto" style={{ fontSize: 13, maxWidth: 220 }}>{s.desc}</p>
             </motion.div>

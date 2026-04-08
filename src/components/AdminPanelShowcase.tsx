@@ -217,7 +217,7 @@ export default function AdminPanelShowcase() {
 
       {/* Reflection/glow overlay */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, hsl(var(--primary) / 0.03) 0%, transparent 40%)" }} />
-    </div>
+    </motion.div>
   );
 }
 

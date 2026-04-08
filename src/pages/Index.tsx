@@ -467,26 +467,20 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
     <Section ref={ref} divider>
       <div style={{ maxWidth: 1152, margin: "0 auto" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={v ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
+          {...scrollRevealScale()}
           className="relative overflow-hidden rounded-3xl"
           style={{
             background: "linear-gradient(135deg, hsl(240 10% 7%) 0%, hsl(244 30% 12%) 50%, hsl(240 10% 7%) 100%)",
             border: "1px solid hsl(244 40% 30% / 0.3)",
           }}
         >
-          {/* Ambient glow */}
           <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full pointer-events-none" style={{ background: "hsl(var(--primary) / 0.06)", filter: "blur(120px)", transform: "translate(30%, -40%)" }} />
           <div className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none" style={{ background: "hsl(var(--accent) / 0.04)", filter: "blur(100px)", transform: "translate(-30%, 40%)" }} />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-16" style={{ padding: "48px 40px" }}>
-              {/* Left: all info */}
               <div className="flex-1 text-center lg:text-left">
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={v ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 }}
+                  {...scrollReveal(0.1)}
                   className="inline-flex items-center gap-1.5 rounded-full mb-4"
                   style={{ padding: "5px 14px", background: "hsl(160 60% 45% / 0.1)", border: "1px solid hsl(160 60% 45% / 0.2)", fontSize: 11, fontWeight: 600, color: "hsl(160 60% 45%)", letterSpacing: "0.05em" }}
                 >
@@ -504,9 +498,7 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                   {features.map((f, i) => (
                     <motion.div
                       key={i}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={v ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+                      {...scrollReveal(0.15 + i * 0.08)}
                       className="flex items-center gap-3"
                     >
                       <div className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "hsl(var(--primary) / 0.1)", border: "1px solid hsl(var(--primary) / 0.15)" }}>
@@ -518,11 +510,8 @@ function FreeAnalysisBlock({ openQuiz }: { openQuiz: () => void }) {
                 </div>
               </div>
 
-              {/* Right: Illustration + CTA */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={v ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.35 }}
+                {...scrollRevealScale(0.2)}
                 className="shrink-0 flex flex-col items-center text-center"
                 style={{ minWidth: 280, maxWidth: 360 }}
               >
